@@ -3,17 +3,27 @@
 import CartLeft from "@/app/components/cartLeft/CartLeft";
 import CartRight from "@/app/components/cartRight/CartRight";
 import ClearCart from "@/app/components/clearCart/ClearCart";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 export default function CartPage() {
-  const { items, total } = useSelector((state) => state.cartItems);
-  const [totalPrice, setTotalPrice] = useState(0);
-
+  const { items } = useSelector((state) => state.cartItems);
+  const totalPrice = items.reduce(
+    (accumulator, cartItem) => accumulator + cartItem.price * cartItem.quantity,
+    0
+  );
+  const totalItems = items.reduce(
+    (accumulator, cartItem) => accumulator + cartItem.quantity,
+    0
+  );
+  const router = useRouter();
   return (
     <div className="container mx-auto px-4 py-6">
       {/* Go Back Button */}
-      <button className="flex items-center gap-2 text-white bg-green-500 px-4 py-2 rounded-lg hover:bg-green-600">
+      <button
+        onClick={() => router.back()}
+        className="flex items-center gap-2 text-white bg-green-500 px-4 py-2 rounded-lg hover:bg-green-600"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -40,12 +50,7 @@ export default function CartPage() {
 
           {items && items.length > 0 ? (
             items.map((cartItem) => (
-              <CartLeft
-                key={cartItem.id}
-                cartItem={cartItem}
-                setTotalPrice={setTotalPrice}
-                totalPrice={totalPrice}
-              />
+              <CartLeft key={cartItem.id} cartItem={cartItem} />
             ))
           ) : (
             <div className="flex justify-center items-center text-gray-700">
@@ -54,8 +59,9 @@ export default function CartPage() {
           )}
         </div>
 
-        {/* Checkout Summary Section */}
-        <CartRight totalPrice={totalPrice} />
+        {items.length > 0 && (
+          <CartRight totalPrice={totalPrice} totalItems={totalItems} />
+        )}
       </div>
     </div>
   );

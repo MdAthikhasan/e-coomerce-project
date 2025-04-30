@@ -1,33 +1,15 @@
 "use client";
 
-import { removeFromCart } from "@/app/redux/features/cartSlice";
+import { removeFromCart, updateQuantity } from "@/app/redux/features/cartSlice";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-function CartLeft({ cartItem, setTotalPrice }) {
-  const [itemPrice, setItemPrice] = useState(cartItem.price);
-  const [quantity, setQuantity] = useState(1);
-
+function CartLeft({ cartItem }) {
   const dispatch = useDispatch();
-  // const priceHandler = (e) => {
-  //   const { textContent: action } = e.target;
-  //   setQuantity((prev) => {
-  //     return action === "+"
-  //       ? prev + 1
-  //       : action === "-" && prev > 1
-  //       ? prev - 1
-  //       : prev;
-  //   });
-  // };
-  // useEffect(() => {
-  //   setItemPrice(itemPrice * quantity);
-  // }, [quantity]);
+  const quentityHandler = (e) => {
+    const { textContent: action } = e.target;
+    dispatch(updateQuantity({ id: cartItem.id, action }));
+  };
 
-  useEffect(() => {
-    const local = localStorage.getItem("totalprice") || [];
-    const localPrice =
-      local.find((item) => item.id === cartItem.id)?.price || itemPrice;
-  }, [quantity]);
   return (
     <div className="bg-white p-4 rounded-lg shadow flex justify-between items-center">
       <div className="flex items-center gap-4">
@@ -41,27 +23,19 @@ function CartLeft({ cartItem, setTotalPrice }) {
 
         <div>
           <h4 className="font-semibold text-gray-800">{cartItem?.name}</h4>
-          <p className="text-green-500 my-2 font-bold">
-            ৳ {itemPrice * quantity}
-          </p>
+          <p className="text-green-500 my-2 font-bold">৳ {cartItem?.price}</p>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => {
-                if (quantity > 1) {
-                  setQuantity(quantity - 1);
-                }
-              }}
+              onClick={quentityHandler}
               className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300"
             >
               -
             </button>
-            <span className="text-gray-800 font-semibold">{quantity}</span>
+            <span className="text-gray-800 font-semibold">
+              {cartItem?.quantity}
+            </span>
             <button
-              onClick={() => {
-                if (quantity > 0) {
-                  setQuantity(quantity + 1);
-                }
-              }}
+              onClick={quentityHandler}
               className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300"
             >
               +

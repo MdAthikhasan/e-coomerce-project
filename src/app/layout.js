@@ -1,10 +1,12 @@
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+
 import { Geist, Geist_Mono } from "next/font/google";
-import Footer from "./footer/Footer";
 import "./globals.css";
 import Header from "./header/Header";
 import "./reset.css";
 
 import SessionProvider from "@/app/components/sessionProvider/SessProvider";
+import Footer from "./footer/footer";
 import ReduxProvider from "./redux/storeProvider";
 
 const geistSans = Geist({
@@ -28,13 +30,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-          <ReduxProvider>
-            <Header />
-            {children}
-            <Footer />
-          </ReduxProvider>
-        </SessionProvider>
+        <AppRouterCacheProvider>
+          <SessionProvider>
+            <ReduxProvider>
+              <Header />
+              {children}
+              <Footer />
+            </ReduxProvider>
+          </SessionProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

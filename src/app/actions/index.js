@@ -2,8 +2,8 @@
 
 import { signIn, signOut } from "@/auth";
 
-export async function doSocialLogin(provider) {
-  await signIn(provider, { redirectTo: "/" });
+export async function doSocialLogin(provider, callbackUrl) {
+  await signIn(provider, { redirectTo: callbackUrl });
 }
 
 export async function doLogout() {

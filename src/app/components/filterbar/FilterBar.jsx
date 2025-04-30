@@ -10,7 +10,7 @@ const catagories = [
   "Others",
 ];
 
-const FilterBar = ({ setCatagoryName, catagoryName }) => {
+const FilterBar = ({ setCatagoryName, categoryName }) => {
   return (
     <div className="border-b">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,7 +20,7 @@ const FilterBar = ({ setCatagoryName, catagoryName }) => {
               onClick={(e) => setCatagoryName(e.target.textContent)}
               key={index}
               className={`text-gray-500 hover:text-green-600 cursor-pointer ${
-                catagoryName === category ? "text-green-600  underline" : ""
+                categoryName === category ? "text-green-600  underline" : ""
               }`}
             >
               {category}

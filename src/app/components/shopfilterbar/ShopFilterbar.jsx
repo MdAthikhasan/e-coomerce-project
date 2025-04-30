@@ -1,4 +1,8 @@
 "use client";
+
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
+
 const catagories = [
   "Electronics",
   "Books",
@@ -9,7 +13,12 @@ const catagories = [
   "Others",
 ];
 const priceCatagory = ["Low to High", " High to Low", "Rating", "Top Sale"];
-const ShopFilterBar = ({ setCatagoryName }) => {
+const ShopFilterBar = ({
+  setCatagoryName,
+  rangeValue,
+  setRangValue,
+  maxValue,
+}) => {
   const catagoryHandler = (e) => {
     setCatagoryName((categoryObj) => {
       return {
@@ -71,37 +80,38 @@ const ShopFilterBar = ({ setCatagoryName }) => {
       {/* Select Price Range */}
       <div className="w-full lg:w-auto">
         <div className="">
-          <label className="block text-center mb-4 text-gray-700 font-medium">
-            Select Price Range
-          </label>
-          <div className="flex items-center justify-between mb-2 text-gray-600">
-            <span>
-              Min: <span id="minValue">0</span>
-            </span>
-            <span>
-              Max: <span id="maxValue">100</span>
-            </span>
-          </div>
-          <div className="relative">
-            <input
-              type="range"
-              id="minSlider"
-              className="absolute w-full h-1 bg-gray-300 rounded-lg appearance-none focus:outline-none slider-thumb"
-              min="0"
-              max="100000"
-              value="100"
-              step="1"
-            />
-            <input
-              type="range"
-              id="maxSlider"
-              className="absolute w-full h-1 bg-gray-300 rounded-lg appearance-none focus:outline-none slider-thumb"
-              min="0"
-              max="100000"
-              value="200"
-              step="1"
-            />
-            <div className="absolute bg-green-500 h-1 top-1/2 transform -translate-y-1/2 rounded-full range-progress"></div>
+          <div className="mx-5">
+            <Box sx={{ width: { xs: "100%", md: "220px" } }}>
+              <div className="flex justify-center text-sm text-gray-700 ">
+                <span>Select Price Range</span>
+              </div>
+              <Slider
+                getAriaLabel={() => "Price range"}
+                value={rangeValue} // Temporary value for smooth interaction
+                onChange={(e, newValue) => setRangValue(newValue)} // Update temporary value on scroll
+                // onChangeCommitted={handlePriceChangeCommitted} // Update actual price when done
+                valueLabelDisplay="auto"
+                getAriaValueText={(price) => `${price}`}
+                min={0} // Set minimum price
+                max={maxValue} // Set maximum price
+                sx={{
+                  color: "#00bf63", // Equivalent to bg-green-700
+                  "& .MuiSlider-thumb": {
+                    backgroundColor: "#00bf63", // Thumb color
+                  },
+                  "& .MuiSlider-track": {
+                    backgroundColor: "#00bf63", // Track color
+                  },
+                  "& .MuiSlider-rail": {
+                    backgroundColor: "#a7f3d0", // Rail color (lighter green for contrast)
+                  },
+                }}
+              />
+              <div className="flex justify-between text-sm text-gray-700 ">
+                <span>Min: {rangeValue[0]}</span>
+                <span>Max: {rangeValue[1]}</span>
+              </div>
+            </Box>
           </div>
         </div>
       </div>

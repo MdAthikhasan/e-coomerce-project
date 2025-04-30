@@ -1,13 +1,18 @@
 "use client";
 
 import { doSocialLogin } from "@/app/actions";
+
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 export default function SignIn() {
   const { data: session, status } = useSession();
-
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  console.log("callbackurl in sign", callbackUrl);
   if (session) {
-    console.log("user", session);
-    return <div className="text-black">You are already signed in</div>;
+    return (
+      <div className="text-black text-center">You are already signed in</div>
+    );
   }
 
   return (
@@ -116,7 +121,7 @@ export default function SignIn() {
 
         {/* Google Sign-In Button */}
         <button
-          onClick={() => doSocialLogin("google")}
+          onClick={() => doSocialLogin("google", callbackUrl)}
           type="button"
           className="w-full flex items-center justify-center gap-2 rounded-md bg-red-600 py-2 text-white text-lg font-semibold hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
         >
