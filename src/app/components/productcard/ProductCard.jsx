@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state?.wishlistItems);
-  const wishlistid = items.find((item) => item?.id === product?.id)?.id || null;
+  const wishlistid =
+    items.find((item) => item?.id === product?._id)?.id || null;
 
   return (
     <div className="border rounded-lg shadow-sm p-4 flex flex-col">
       <div className="relative">
-        <Link href={`/shop/${product.id}`}>
+        <Link href={`/shop/${product._id}`}>
           <img
             src={product.image}
             alt={product.name}
@@ -25,18 +26,18 @@ const ProductCard = ({ product }) => {
         </div>
         <div className="absolute top-2 right-2  py-1">
           <button
-            onClick={() => dispatch(addToWishlist(product.id))}
+            onClick={() => dispatch(addToWishlist(product._id))}
             className="p-2 rounded-full"
           >
             <svg
               id="heart-icon"
               xmlns="http://www.w3.org/2000/svg"
-              fill={product.id === wishlistid ? "#b91c1c" : "#a0a0a0"}
+              fill={product._id === wishlistid ? "#b91c1c" : "#a0a0a0"}
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
               className={`w-6 h-6 ${
-                product.id === wishlistid ? "text-red-900" : "text-gray-800"
+                product._id === wishlistid ? "text-red-900" : "text-gray-800"
               } hover:text-red-900 transition`}
             >
               <path
@@ -66,7 +67,7 @@ const ProductCard = ({ product }) => {
         </p>
       </div>
       <button
-        onClick={() => dispatch(addToCart(product.id))}
+        onClick={() => dispatch(addToCart(product._id))}
         className="mt-auto bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
       >
         Add to Cart

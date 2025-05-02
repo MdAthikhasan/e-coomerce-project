@@ -1,14 +1,15 @@
 "use client";
-
 import { doSocialLogin } from "@/app/actions";
+import Link from "next/link";
 
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import handleSubmit from "@/uttils/serverAction";
 export default function SignIn() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
-  console.log("callbackurl in sign", callbackUrl);
+
   if (session) {
     return (
       <div className="text-black text-center">You are already signed in</div>
@@ -23,7 +24,7 @@ export default function SignIn() {
         </h2>
 
         {/* Email and Password */}
-        <form className="space-y-5">
+        <form action={handleSubmit} className="space-y-5">
           {/* Email */}
           <div className="space-y-1">
             <label
@@ -35,6 +36,7 @@ export default function SignIn() {
             <input
               id="email"
               type="email"
+              name="email"
               className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:ring-green-500 focus:border-green-500 shadow-sm"
               placeholder="Enter your email"
             />
@@ -52,6 +54,7 @@ export default function SignIn() {
               <input
                 id="password"
                 type="password"
+                name="password"
                 className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:ring-green-500 focus:border-green-500 shadow-sm pr-12"
                 placeholder="Enter your password"
               />
@@ -146,9 +149,9 @@ export default function SignIn() {
         {/* Footer */}
         <div className="text-center text-sm">
           Don't have an account?{" "}
-          <a href="#" className="text-green-500 hover:underline">
+          <Link href="/signup" className="text-green-500 hover:underline">
             Sign Up
-          </a>
+          </Link>
         </div>
       </div>
     </div>

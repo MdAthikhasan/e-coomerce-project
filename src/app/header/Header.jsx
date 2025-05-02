@@ -11,7 +11,7 @@ import SearchContainer from "../components/searchContainer/SearchContainer";
 
 const Header = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isSearchMenuOpen, setSearchMenuOpen] = useState(false);
+
   const [inputValue, setInputValue] = useState("");
   const searchBoxRef = useRef(null);
 
@@ -22,7 +22,7 @@ const Header = () => {
     setMobileMenuOpen((prev) => !prev);
   };
   const { data, status } = useSession();
-
+  console.log("sessionnn", data, "status", status);
   const { items } = useSelector((state) => state?.cartItems);
   const totalQuantity = items.reduce(
     (accumulator, cartItem) => accumulator + cartItem.quantity,
@@ -32,7 +32,7 @@ const Header = () => {
   // if (status === "loading") return <div>Loading...</div>;
   return (
     <nav className=" bg-white shadow-md px-4 md:px-8 lg:px-16 py-4 ">
-      <div className="container relative  md:static mx-auto flex items-center justify-between">
+      <div className="container relative  lg:static mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href={"/"}>
           <div className="flex items-center space-x-2">
@@ -53,7 +53,7 @@ const Header = () => {
         {!isMobileMenuOpen && (
           <div
             ref={searchBoxRef}
-            className="absolute z-10 hidden md:flex  w-full  md:max-w-[600px]  top-[45px] md:static"
+            className="absolute z-10 hidden lg:flex  w-full  md:max-w-[600px]  top-[45px] md:static"
           >
             <div className="w-full relative">
               <input
@@ -69,7 +69,7 @@ const Header = () => {
         )}
 
         {/* Menu Items */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden lg:flex items-center space-x-6">
           <Link className="text-gray-800 hover:text-green-500" href={"/shop"}>
             {" "}
             Products
@@ -112,7 +112,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center ">
+        <div className="lg:hidden flex items-center">
           {!isMobileMenuOpen && (
             <button onClick={handleSearchBtn} className="text-gray-800 mr-2">
               <FaSearch size={24} />
@@ -126,7 +126,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden mt-4 space-y-4">
+        <div className="lg:hidden mt-4 space-y-4">
           <Link
             className="block text-gray-800 hover:text-green-500"
             href={"/shop"}

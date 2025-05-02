@@ -35,10 +35,10 @@ export default function ProductDetails() {
       </button>
       {products && products.length > 0 ? (
         products
-          ?.filter((product) => product.id === params.id)
+          ?.filter((product) => product._id === params.id)
           ?.map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white shadow-lg rounded-lg p-6"
             >
               <ProductDetalsLeft product={product} />

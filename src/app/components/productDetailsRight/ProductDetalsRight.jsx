@@ -15,7 +15,7 @@ function ProductDetalsRight({ product }) {
       </p>
       <h2 className="font-semibold text-lg mb-2">Key Features:</h2>
       <ul className="text-gray-700 space-y-1 mb-4">
-        {arrayOfObject.map((feature) => (
+        {arrayOfObject.map((feature,index) => (
           <li key={index}>
             <span className="font-semibold">{feature[0]}:</span> {feature[1]}
           </li>

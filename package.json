@@ -2,10 +2,10 @@
   "name": "e-coomerce",
   "version": "0.1.0",
   "private": true,
+  "module": "",
   "scripts": {
     "dev": "next dev  --turbopack",
-    "json": "json-server --watch ./database/db.json --port 8000",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },

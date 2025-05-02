@@ -18,7 +18,7 @@ export default function SearchContainer({ inputValue }) {
       {productFiltered.length > 0 && (
         <div className="w-full max-h-[545px] overflow-y-auto absolute top-full grid gap-y-2 p-4 bg-white shadow-lg z-10">
           {productFiltered.map((product) => (
-            <Link key={product.id} href={`/shop/${product.id}`}>
+            <Link key={product._id} href={`/shop/${product._id}`}>
               <div className="flex items-center bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition">
                 <img
                   src={product.image}
