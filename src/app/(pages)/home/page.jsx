@@ -1,13 +1,24 @@
 import Features from "@/app/components/features/Features";
-import Products from "@/app/components/products/Products";
-import Banner from "@/app/components/shred/header/banner/Banner";
+import HomeProducts from "@/app/components/products/Products";
 
+import Banner from "@/app/components/shred/header/banner/Banner";
+import getProducts from "@/app/getData/products";
+import { Suspense } from "react";
 function Home() {
+  const promise = getProducts();
   return (
     <>
       <Banner />
       <Features />
-      <Products />    
+      <Suspense
+        fallback={
+          <div className="flex justify-center items-center h-screen text-2xl text-green-600">
+            Loading...
+          </div>
+        }
+      >
+        <HomeProducts promise={promise} />
+      </Suspense>
     </>
   );
 }

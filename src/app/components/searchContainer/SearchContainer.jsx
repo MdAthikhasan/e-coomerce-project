@@ -1,10 +1,20 @@
 "use client";
 
+import getProducts from "@/app/getData/products";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export default function SearchContainer({ inputValue }) {
-  const products = useSelector((state) => state.products?.value);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
+
   const productFiltered =
     inputValue === ""
       ? []
@@ -12,7 +22,6 @@ export default function SearchContainer({ inputValue }) {
           product.name.toLowerCase().includes(inputValue.toLowerCase())
         );
 
-  console.log("product", productFiltered);
   return (
     <>
       {productFiltered.length > 0 && (
@@ -21,17 +30,17 @@ export default function SearchContainer({ inputValue }) {
             <Link key={product._id} href={`/shop/${product._id}`}>
               <div className="flex items-center bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition">
                 <img
-                  src={product.image}
-                  alt={product.name}
+                  src={product?.image}
+                  alt={product?.name}
                   className="w-16 h-16 object-contain mr-4"
                 />
                 <div className="flex-1">
                   <h2 className="text-sm font-medium text-gray-800">
-                    {product.name}
+                    {product?.name}
                   </h2>
                 </div>
                 <div className="text-red-600 font-bold text-lg whitespace-nowrap">
-                  {product.price}
+                  {product?.price}
                 </div>
               </div>
             </Link>

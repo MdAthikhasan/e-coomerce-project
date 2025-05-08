@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 export default function WishlistPage() {
-  const { items: wishlistitem } = useSelector((state) => state.wishlistItems);
+  const { items } = useSelector((state) => state?.wishlistItems);
   const router = useRouter();
   return (
     <div className="container mx-auto px-4 py-6">
@@ -36,8 +36,8 @@ export default function WishlistPage() {
         <h3 className="font-semibold text-xl text-gray-800 mb-4">Wishlist</h3>
 
         {/* Wishlist Item */}
-        {wishlistitem.length > 0 ? (
-          wishlistitem.map((item) => <Wishlistitem key={item.id} item={item} />)
+        {items && items?.length > 0 ? (
+          items.map((item, index) => <Wishlistitem key={index} item={item} />)
         ) : (
           <p className="text-red-500">No wishlist item found</p>
         )}

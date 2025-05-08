@@ -1,13 +1,13 @@
 "use client";
 
-import { removeFromCart, updateQuantity } from "@/app/redux/features/cartSlice";
+import { removeFromCart, updateQuantity } from "@/redux/features/cartSlice";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 function CartLeft({ cartItem }) {
   const dispatch = useDispatch();
   const quentityHandler = (e) => {
     const { textContent: action } = e.target;
-    dispatch(updateQuantity({ id: cartItem.id, action }));
+    dispatch(updateQuantity({ id: cartItem._id, action }));
   };
 
   return (
@@ -15,7 +15,7 @@ function CartLeft({ cartItem }) {
       <div className="flex items-center gap-4">
         <Image
           src={cartItem?.image}
-          alt="Medjool Dates"
+          alt={cartItem?.name}
           width={80}
           height={80}
           className="rounded-lg object-cover"
@@ -45,7 +45,7 @@ function CartLeft({ cartItem }) {
       </div>
 
       <button
-        onClick={() => dispatch(removeFromCart(cartItem.id))}
+        onClick={() => dispatch(removeFromCart(cartItem._id))}
         className="text-red-500 hover:bg-red-100 p-2 rounded-lg"
       >
         <svg

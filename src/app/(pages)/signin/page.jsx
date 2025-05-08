@@ -2,9 +2,8 @@
 import { doSocialLogin } from "@/app/actions";
 import Link from "next/link";
 
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import handleSubmit from "@/uttils/serverAction";
 export default function SignIn() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
@@ -15,7 +14,10 @@ export default function SignIn() {
       <div className="text-black text-center">You are already signed in</div>
     );
   }
-
+  const credentialsAction = (formData) => {
+    console.log("formdata", formData);
+    signIn("credentials", { ...formData, redirectTo: callbackUrl });
+  };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 space-y-6">
@@ -24,7 +26,7 @@ export default function SignIn() {
         </h2>
 
         {/* Email and Password */}
-        <form action={handleSubmit} className="space-y-5">
+        <form action={credentialsAction} className="space-y-5">
           {/* Email */}
           <div className="space-y-1">
             <label
@@ -107,12 +109,17 @@ export default function SignIn() {
           </div>
 
           {/* Submit Button */}
-          <button
+          <input
+            className="w-full rounded-md bg-green-600 py-2 text-white text-lg font-semibold hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
+            type="submit"
+            value="Sign In"
+          />
+          {/* <button
             type="submit"
             className="w-full rounded-md bg-green-600 py-2 text-white text-lg font-semibold hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
           >
             Sign In
-          </button>
+          </button> */}
         </form>
 
         {/* Divider */}

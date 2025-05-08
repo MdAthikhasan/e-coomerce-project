@@ -11,10 +11,9 @@ export async function middleware(req) {
     );
   }
 
-  return NextResponse.next(); // Allow access if authenticated
+  return NextResponse.next();
 }
 
-// Apply middleware to specific routes
 export const config = {
   matcher: ["/cart", "/wishlist"], // Protects "/cart" and "/wishlist"
 };

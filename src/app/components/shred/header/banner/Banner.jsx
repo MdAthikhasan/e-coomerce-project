@@ -1,4 +1,5 @@
 "use client";
+
 import { Carousel } from "@material-tailwind/react";
 import Image from "next/image";
 
@@ -14,7 +15,7 @@ const images = [img1, img2, img3, img4, img5, img6, img7];
 
 function Banner() {
   return (
-    <div >
+    <div>
       <Carousel autoplay="true">
         {images.map((image, index) => (
           <Image

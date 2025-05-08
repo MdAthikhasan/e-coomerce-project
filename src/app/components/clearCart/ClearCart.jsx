@@ -1,6 +1,6 @@
 "use client";
 
-import { clearCarts } from "@/app/redux/features/cartSlice";
+import { clearCarts } from "@/redux/features/cartSlice";
 import { useDispatch } from "react-redux";
 
 function ClearCart() {

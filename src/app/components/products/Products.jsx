@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
-
-import { useSelector } from "react-redux";
+import { fetchProducts } from "@/redux/features/cartSlice";
+import { fetchProductData } from "@/redux/features/wishSlice";
+import { use, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import FilterBar from "../filterbar/FilterBar";
 import ProductCard from "../productcard/ProductCard";
 
-export default function Products() {
-  const products = useSelector((state) => state?.products.value);
+export default function HomeProducts({ promise }) {
   const [categoryName, setCatagoryName] = useState("Electronics");
-
+  const products = use(promise);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchProducts()); // thunk dispatch
+    dispatch(fetchProductData()); // thunk dispatch
+  }, [dispatch]);
   const filteredProducts = products
     ?.filter((product) => product.category === categoryName)
     .slice(0, 10);

@@ -19,7 +19,6 @@ export default function SignUp() {
 
     const user = users && users.find((u) => u.email === email);
     if (user && user.email === email) {
-      console.log(user.email, email);
       alert("User already exists");
     } else {
       localStorage.setItem("user", JSON.stringify([{ email, password }]));
@@ -109,29 +108,6 @@ export default function SignUp() {
           <span className="text-sm text-gray-500">Or Continue</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
-
-        {/* Google Sign-Up Button */}
-        <button
-          type="button"
-          className="w-full flex items-center justify-center gap-2 rounded-md bg-red-600 py-2 text-white text-lg font-semibold hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 48 48"
-            className="h-6 w-6"
-            fill="none"
-          >
-            <path
-              fill="#EA4335"
-              d="M24 9.5c3.1 0 5.9 1.2 8.1 3.2l6.2-6.2C34.2 3.5 29.3 1 24 1 14.7 1 7 6.8 3.4 15.1l7.5 5.8C12.6 13.2 17.9 9.5 24 9.5z"
-            />
-            <path
-              fill="#FBBC05"
-              d="M48 24c0-1.5-.1-2.9-.4-4.2H24v8.1h13.5C35.2 32.3 30.2 36 24 36c-6.1 0-11.3-3.7-13.6-9.1l-7.5 5.8C7 41.3 14.7 47 24 47c10.7 0 19.7-7.2 22.8-17l.2-.2h-.1c.1 0 .1-.1.1-.2z"
-            />
-          </svg>
-          Sign Up with Google
-        </button>
 
         {/* Footer */}
         <div className="text-center text-sm">

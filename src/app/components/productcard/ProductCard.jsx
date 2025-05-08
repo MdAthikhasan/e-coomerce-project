@@ -1,43 +1,47 @@
 "use client";
 
-import { addToCart } from "@/app/redux/features/cartSlice";
-import { addToWishlist } from "@/app/redux/features/wishlist";
+import { addToCart } from "@/redux/features/cartSlice";
+import { addToWishlist } from "@/redux/features/wishSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state?.wishlistItems);
   const wishlistid =
-    items.find((item) => item?.id === product?._id)?.id || null;
+    items.find((item) => item?._id === product?._id)?._id || null;
 
   return (
     <div className="border rounded-lg shadow-sm p-4 flex flex-col">
       <div className="relative">
-        <Link href={`/shop/${product._id}`}>
+        <Link href={`/shop/${product?._id}`}>
           <img
-            src={product.image}
-            alt={product.name}
+            src={product?.image}
+            alt={product?.name}
             className="rounded-md w-full h-40 object-cover"
           />
         </Link>
 
         <div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-sm">
-          ৳ {product.price}
+          ৳ {product?.price}
         </div>
         <div className="absolute top-2 right-2  py-1">
           <button
-            onClick={() => dispatch(addToWishlist(product._id))}
+            onClick={() => {
+              console.log("clikedddd", product?._id);
+
+              dispatch(addToWishlist(product?._id));
+            }}
             className="p-2 rounded-full"
           >
             <svg
               id="heart-icon"
               xmlns="http://www.w3.org/2000/svg"
-              fill={product._id === wishlistid ? "#b91c1c" : "#a0a0a0"}
+              fill={product?._id === wishlistid ? "#b91c1c" : "#a0a0a0"}
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
               className={`w-6 h-6 ${
-                product._id === wishlistid ? "text-red-900" : "text-gray-800"
+                product?._id === wishlistid ? "text-red-900" : "text-gray-800"
               } hover:text-red-900 transition`}
             >
               <path
@@ -54,20 +58,23 @@ const ProductCard = ({ product }) => {
         <h3 className="text-lg font-bold">{product.name}</h3>
         <p
           className={`flex items-center gap-2 text-sm ${
-            product.status === true ? "text-green-500" : "text-red-500"
+            product?.status === true ? "text-green-500" : "text-red-500"
           } `}
         >
           <span
             className={`bg-green-100  px-2 py-1 rounded-full ${
-              product.status === true ? "text-green-700" : "text-red-700"
+              product?.status === true ? "text-green-700" : "text-red-700"
             }`}
           >
-            {product.status === true ? "In stock" : "out of stock"}
+            {product?.status === true ? "In stock" : "out of stock"}
           </span>
         </p>
       </div>
       <button
-        onClick={() => dispatch(addToCart(product._id))}
+        onClick={() => {
+          console.log("clikedddd", product._id);
+          dispatch(addToCart(product._id));
+        }}
         className="mt-auto bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
       >
         Add to Cart

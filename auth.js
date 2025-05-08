@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import getUserByEmail from "./uttils/getUserByEmail";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -8,29 +9,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
   },
   providers: [
-    Credentials({
-      name: "Credentials",
+    CredentialsProvider({
       credentials: {
         email: {},
         password: {},
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         console.log("credentials", credentials);
         if (!credentials) return null;
 
         try {
           const userData = getUserByEmail(credentials.email);
+          console.log("userData", userData);
           if (userData) {
             const isMatch =
-              userData.email === credentials.email &&
-              userData.password === credentials.password;
+              userData.email === credentials?.email &&
+              userData.password === credentials?.password;
             if (isMatch) {
               return userData;
             } else {
-              alert("Email or Password incorrect");
+              console.log("Email or Password incorrect");
             }
           } else {
-            alert("User not found");
+            console.log("User not found");
           }
         } catch (error) {
           console.log(error);
@@ -49,5 +50,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET,
 });

@@ -22,7 +22,7 @@ const Header = () => {
     setMobileMenuOpen((prev) => !prev);
   };
   const { data, status } = useSession();
-  console.log("sessionnn", data, "status", status);
+
   const { items } = useSelector((state) => state?.cartItems);
   const totalQuantity = items.reduce(
     (accumulator, cartItem) => accumulator + cartItem.quantity,

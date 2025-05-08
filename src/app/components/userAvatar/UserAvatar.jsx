@@ -4,10 +4,13 @@ import Avatar from "@mui/material/Avatar";
 import { useSession } from "next-auth/react";
 const UserAvatar = () => {
   const { data, status } = useSession();
-  const { user } = data;
+  const name = Object.values(data?.user)[0];
+  if (status === "loading") {
+    return <Avatar sx={{ width: 32, height: 32 }} />;
+  }
   return (
     <Avatar sx={{ width: 32, height: 32 }}>
-      {user.name.charAt(0).toUpperCase()}
+      {name?.charAt(0).toUpperCase()}
     </Avatar>
   );
 };

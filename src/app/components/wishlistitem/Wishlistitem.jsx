@@ -1,5 +1,7 @@
-import { addToCart } from "@/app/redux/features/cartSlice";
-import { removeFromWishlist } from "@/app/redux/features/wishlist";
+"use client";
+
+import { addToCart } from "@/redux/features/cartSlice";
+import { removeFromWishlist } from "@/redux/features/wishSlice";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 
@@ -9,21 +11,21 @@ function Wishlistitem({ item }) {
     <div className="bg-gray-50 p-4 rounded-lg shadow flex justify-between items-center">
       {/* Item Details */}
       <div className="flex items-center gap-4">
-        <Image src={item.image} width={100} height={100} alt={item.name} />
+        <Image src={item?.image} width={100} height={100} alt={item?.name} />
 
         <div>
           <h4 className="font-semibold text-gray-800">{item?.name}</h4>
           <p
             className={`flex items-center my-2 gap-2 text-sm ${
-              item.status === true ? "text-green-500" : "text-red-500"
+              item?.status === true ? "text-green-500" : "text-red-500"
             } `}
           >
             <span
               className={`bg-green-100  px-2 py-1 rounded-full ${
-                item.status === true ? "text-green-700" : "text-red-700"
+                item?.status === true ? "text-green-700" : "text-red-700"
               }`}
             >
-              {item.status === true ? "In stock" : "out of stock"}
+              {item?.status === true ? "In stock" : "out of stock"}
             </span>
           </p>
           <p className="text-green-500 font-bold text-lg">৳ {item?.price}</p>
@@ -33,7 +35,9 @@ function Wishlistitem({ item }) {
       {/* Action Buttons */}
       <div className="flex flex-col gap-2">
         <button
-          onClick={() => dispatch(addToCart(item.id))}
+          onClick={() => {
+            dispatch(addToCart(item?._id));
+          }}
           className="flex items-center justify-center bg-green-500 text-white p-2 rounded-lg hover:bg-green-600"
         >
           <svg
@@ -52,7 +56,7 @@ function Wishlistitem({ item }) {
           </svg>
         </button>
         <button
-          onClick={() => dispatch(removeFromWishlist(item.id))}
+          onClick={() => dispatch(removeFromWishlist(item._id))}
           className="flex items-center justify-center bg-red-500 text-white p-2 rounded-lg hover:bg-red-600"
         >
           <svg

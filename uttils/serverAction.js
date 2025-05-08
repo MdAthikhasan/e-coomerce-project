@@ -2,9 +2,16 @@
 import { signIn } from "@/auth";
 
 async function handleSubmit(formData) {
-  console.log("formData", formData);
+  const email = formData.get("email");
+  const password = formData.get("password");
+  console.log("formdata", formData);
+  console.log("email", email, "passwrd", password);
   try {
-    await signIn("credentials", { ...formData, redirectTo: "/" });
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: "/",
+    });
   } catch (err) {
     throw new Error(err?.message || "Login failed: " + err.message);
   }

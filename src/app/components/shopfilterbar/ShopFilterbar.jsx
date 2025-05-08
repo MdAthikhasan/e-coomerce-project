@@ -12,7 +12,7 @@ const catagories = [
   "Offer",
   "Others",
 ];
-const priceCatagory = ["Low to High", " High to Low", "Rating", "Top Sale"];
+const priceCatagory = ["Low to High", " High to Low"];
 const ShopFilterBar = ({
   setCatagoryName,
   rangeValue,

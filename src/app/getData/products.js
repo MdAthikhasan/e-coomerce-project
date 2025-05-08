@@ -1,12 +1,9 @@
-import axios from "axios";
-
 const getProducts = async () => {
-  try {
-    const res = await axios.get("https://e-commerce-json-1.onrender.com/data");
-    return await res.data;
-  } catch (error) {
-    console.log(error);
+  const res = await fetch("https://e-commerce-json-1.onrender.com/data");
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
   }
+  return res.json();
 };
 
 export default getProducts;

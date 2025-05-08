@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 export default function CartPage() {
-  const { items } = useSelector((state) => state.cartItems);
+  const { items } = useSelector((state) => state?.cartItems);
   const totalPrice = items.reduce(
     (accumulator, cartItem) => accumulator + cartItem.price * cartItem.quantity,
     0
@@ -49,8 +49,8 @@ export default function CartPage() {
           </div>
 
           {items && items.length > 0 ? (
-            items.map((cartItem) => (
-              <CartLeft key={cartItem.id} cartItem={cartItem} />
+            items.map((cartItem, index) => (
+              <CartLeft key={index} cartItem={cartItem} />
             ))
           ) : (
             <div className="flex justify-center items-center text-gray-700">
