@@ -3,15 +3,40 @@
 import { addToCart } from "@/redux/features/cartSlice";
 import { addToWishlist } from "@/redux/features/wishSlice";
 import Link from "next/link";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state?.wishlistItems);
+  // const { items } = useSelector((state) => state?.wishlistItems);
+  const { items } = useSelector((state) => state?.cartItems);
   const wishlistid =
     items.find((item) => item?._id === product?._id)?._id || null;
 
+  const cartHandler = (id) => {
+    dispatch(addToCart(id));
+    // console.log("itemss", items);
+    // localStorage.setItem("cartItems", JSON.stringify(items));
+  };
+  const wishHandler = (id) => {
+    dispatch(addToWishlist(id));
+    // Save to localStorage
+    // const existing = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+    // const updated = [...existing, product];
+    // localStorage.setItem("wishlistItems", JSON.stringify(updated));
+  };
+  useEffect(() => {
+    const saveToLocalStorage = () => {
+      localStorage.setItem("cartItems", JSON.stringify(items));
+      console.log(items);
+    };
+    saveToLocalStorage();
+  }, [items]);
+
   return (
-    <div className="border rounded-lg shadow-sm p-4 flex flex-col">
+    <div
+      suppressHydrationWarning={true}
+      className="border rounded-lg shadow-sm p-4 flex flex-col"
+    >
       <div className="relative">
         <Link href={`/shop/${product?._id}`}>
           <img
@@ -26,11 +51,7 @@ const ProductCard = ({ product }) => {
         </div>
         <div className="absolute top-2 right-2  py-1">
           <button
-            onClick={() => {
-              console.log("clikedddd", product?._id);
-
-              dispatch(addToWishlist(product?._id));
-            }}
+            onClick={() => wishHandler(product?._id)}
             className="p-2 rounded-full"
           >
             <svg
@@ -71,10 +92,7 @@ const ProductCard = ({ product }) => {
         </p>
       </div>
       <button
-        onClick={() => {
-          console.log("clikedddd", product._id);
-          dispatch(addToCart(product._id));
-        }}
+        onClick={() => cartHandler(product?._id)}
         className="mt-auto bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
       >
         Add to Cart

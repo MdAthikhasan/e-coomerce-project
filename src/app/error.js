@@ -9,18 +9,21 @@ export default function Error({ error, reset }) {
   }, [error]);
 
   return (
-    <div>
-      <h2 className="text-center text-red-500 text-sm">
-        Something went wrong!
-      </h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6 text-center space-y-4">
+        <h2 className="text-xl font-semibold text-red-600">
+          Something went wrong!
+        </h2>
+        <p className="text-gray-600 text-sm">
+          We encountered an unexpected error. Please try again.
+        </p>
+        <button
+          onClick={() => reset()}
+          className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition duration-200"
+        >
+          Try Again
+        </button>
+      </div>
     </div>
   );
 }

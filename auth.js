@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import getUserByEmail from "./uttils/getUserByEmail";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -9,10 +9,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
   },
   providers: [
-    CredentialsProvider({
+    Credentials({
       credentials: {
-        email: {},
-        password: {},
+        email: {
+          type: "email",
+          label: "Email",
+          placeholder: "johndoe@gmail.com",
+        },
+        password: {
+          type: "password",
+          label: "Password",
+          placeholder: "*****",
+        },
       },
       async authorize(credentials) {
         console.log("credentials", credentials);
@@ -36,9 +44,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         } catch (error) {
           console.log(error);
         }
+        return null;
       },
     }),
-    GoogleProvider({
+    Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorization: {

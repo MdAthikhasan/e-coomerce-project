@@ -1,6 +1,9 @@
 const getCartItems = () => {
-  if (typeof window === "undefined") return null;
-  return JSON.parse(localStorage.getItem("cartItems"));
+  try {
+    return JSON.parse(localStorage.getItem("cartItems"));
+  } catch (error) {
+    console.error("Error getting cart items from local storage", error);
+  }
 };
 
 export default getCartItems;

@@ -4,9 +4,23 @@ import Link from "next/link";
 
 import { signIn, useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { useActionState } from "react";
 export default function SignIn() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
+  const createUser = (prevState, formData) => {
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    signIn("credentials", {
+      email,
+      password,
+      redirectTo: callbackUrl,
+    });
+  };
+  const [state, credentialsAction, pending] = useActionState(createUser, {
+    message: "something went wrong",
+  });
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   if (session) {
@@ -14,10 +28,7 @@ export default function SignIn() {
       <div className="text-black text-center">You are already signed in</div>
     );
   }
-  const credentialsAction = (formData) => {
-    console.log("formdata", formData);
-    signIn("credentials", { ...formData, redirectTo: callbackUrl });
-  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 space-y-6">
@@ -109,6 +120,7 @@ export default function SignIn() {
           </div>
 
           {/* Submit Button */}
+          <p aria-live="polite">{state?.message}</p>
           <input
             className="w-full rounded-md bg-green-600 py-2 text-white text-lg font-semibold hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
             type="submit"

@@ -2,16 +2,18 @@
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaBars, FaHeart, FaSearch, FaShoppingCart } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import { getCartItems } from "@/redux/features/cartSlice";
 import AccountMenu from "../components/accountMenu/AccountMenu";
 import SearchContainer from "../components/searchContainer/SearchContainer";
 
 const Header = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state?.cartItems);
   const [inputValue, setInputValue] = useState("");
   const searchBoxRef = useRef(null);
 
@@ -23,7 +25,12 @@ const Header = () => {
   };
   const { data, status } = useSession();
 
-  const { items } = useSelector((state) => state?.cartItems);
+  useEffect(() => {
+    const savedItems = localStorage.getItem("cartItems");
+    if (savedItems) {
+      dispatch(getCartItems(JSON.parse(savedItems)));
+    }
+  }, []);
   const totalQuantity = items.reduce(
     (accumulator, cartItem) => accumulator + cartItem.quantity,
     0
@@ -31,7 +38,10 @@ const Header = () => {
 
   // if (status === "loading") return <div>Loading...</div>;
   return (
-    <nav className=" bg-white shadow-md px-4 md:px-8 lg:px-16 py-4 ">
+    <nav
+      suppressHydrationWarning={true}
+      className=" bg-white shadow-md px-4 md:px-8 lg:px-16 py-4 "
+    >
       <div className="container relative  lg:static mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href={"/"}>
