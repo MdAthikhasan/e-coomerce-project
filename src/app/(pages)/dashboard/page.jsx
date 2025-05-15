@@ -1,5 +1,6 @@
 "use client";
 
+import Wishlistitem from "@/app/components/wishlistitem/Wishlistitem";
 import {
   Card,
   Tab,
@@ -8,11 +9,28 @@ import {
   TabsBody,
   TabsHeader,
 } from "@material-tailwind/react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 // import { Helmet } from "react-helmet-async";
 import { FaHeart, FaShoppingBag, FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const data = [
+  const { items } = useSelector((state) => state?.wishlistItems);
+  const {data,status} = useSession()
+  const [joinDate, setJoinDate] = useState('');
+
+  useEffect(() => {
+    const date = new Date(); // or dynamically fetched date
+    const formatted = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    setJoinDate(formatted);
+  }, []);
+   
+  const sections = [
     {
       label: "Profile",
       value: "profile",
@@ -24,29 +42,24 @@ const Profile = () => {
               <span className="text-white text-7xl font-semibold">U</span>
             </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Name
-            </label>
-            <p className="text-lg font-medium">User Name</p>
-          </div>
+           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
-            <p className="text-lg">user@example.com</p>
+            <p className="text-lg">{data?.user?.email}</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Account Status
             </label>
-            <span className="text-red-500">Not Verified</span>
+            <span className="text-red-500">{status}</span>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Member Since
             </label>
-            <p className="text-lg">March 20, 2024</p>
+            <p className="text-lg">{joinDate}</p>
           </div>
         </div>
       ),
@@ -101,14 +114,17 @@ const Profile = () => {
         <div className="space-y-4">
           <h3 className="text-xl font-semibold mb-4">My Wishlist</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="p-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h4 className="font-medium">Product 1</h4>
-                  <p className="text-primary">$49.99</p>
-                </div>
-              </div>
-            </Card>
+            
+          {items && items?.length > 0 ? (
+           items.map((item) =>  (
+           <Card key={item?._id} className="p-4">
+            <Wishlistitem  item={item} />
+           </Card>
+          ))
+        ) : (
+          <p className="text-red-500 text-center">No wishlist item found</p>
+        )}
+            
           </div>
         </div>
       ),
@@ -124,7 +140,7 @@ const Profile = () => {
       <Card className="max-w-4xl mx-auto p-4 md:p-8">
         <Tabs value="profile">
           <TabsHeader>
-            {data.map(({ label, value, icon: Icon }) => (
+            {sections.map(({ label, value, icon: Icon }) => (
               <Tab key={value} value={value}>
                 <div className="flex items-center gap-2">
                   <Icon className="w-5 h-5 hidden md:block" />
@@ -134,7 +150,7 @@ const Profile = () => {
             ))}
           </TabsHeader>
           <TabsBody className="mt-6">
-            {data.map(({ value, content }) => (
+            {sections.map(({ value, content }) => (
               <TabPanel key={value} value={value}>
                 {content}
               </TabPanel>

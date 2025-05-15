@@ -3,9 +3,10 @@
 import { addToCart } from "@/redux/features/cartSlice";
 import { removeFromWishlist } from "@/redux/features/wishSlice";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Wishlistitem({ item }) {
+ 
   const dispatch = useDispatch();
   return (
     <div className="bg-gray-50 p-4 rounded-lg shadow flex justify-between items-center">

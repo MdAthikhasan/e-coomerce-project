@@ -7,27 +7,26 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
-  // const { items } = useSelector((state) => state?.wishlistItems);
-  const { items } = useSelector((state) => state?.cartItems);
+  const { items } = useSelector((state) => state?.wishlistItems);
+  const state = useSelector((state) => state?.cartItems);
   const wishlistid =
     items.find((item) => item?._id === product?._id)?._id || null;
 
   const cartHandler = (id) => {
     dispatch(addToCart(id));
-    // console.log("itemss", items);
-    // localStorage.setItem("cartItems", JSON.stringify(items));
   };
   const wishHandler = (id) => {
     dispatch(addToWishlist(id));
-    // Save to localStorage
-    // const existing = JSON.parse(localStorage.getItem("wishlistItems")) || [];
-    // const updated = [...existing, product];
-    // localStorage.setItem("wishlistItems", JSON.stringify(updated));
   };
   useEffect(() => {
     const saveToLocalStorage = () => {
-      localStorage.setItem("cartItems", JSON.stringify(items));
-      console.log(items);
+      localStorage.setItem("cartItems", JSON.stringify(state?.items));
+    };
+    saveToLocalStorage();
+  }, [state?.items]);
+  useEffect(() => {
+    const saveToLocalStorage = () => {
+      localStorage.setItem("wishlistItems", JSON.stringify(items));
     };
     saveToLocalStorage();
   }, [items]);

@@ -39,7 +39,7 @@ export default function WishlistPage() {
         {items && items?.length > 0 ? (
           items.map((item, index) => <Wishlistitem key={index} item={item} />)
         ) : (
-          <p className="text-red-500">No wishlist item found</p>
+          <p className="text-red-500 text-center">No wishlist item found</p>
         )}
       </div>
     </div>

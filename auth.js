@@ -5,6 +5,9 @@ import Google from "next-auth/providers/google";
 import getUserByEmail from "./uttils/getUserByEmail";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  pages:{
+    error:"/error"
+  },
   session: {
     strategy: "jwt",
   },
@@ -23,12 +26,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       },
       async authorize(credentials) {
-        console.log("credentials", credentials);
+        
         if (!credentials) return null;
 
         try {
           const userData = getUserByEmail(credentials.email);
-          console.log("userData", userData);
+         
           if (userData) {
             const isMatch =
               userData.email === credentials?.email &&

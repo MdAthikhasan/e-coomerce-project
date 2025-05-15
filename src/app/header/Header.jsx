@@ -7,6 +7,7 @@ import { FaBars, FaHeart, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCartItems } from "@/redux/features/cartSlice";
+import { getWithListItems } from "@/redux/features/wishSlice";
 import AccountMenu from "../components/accountMenu/AccountMenu";
 import SearchContainer from "../components/searchContainer/SearchContainer";
 
@@ -27,9 +28,9 @@ const Header = () => {
 
   useEffect(() => {
     const savedItems = localStorage.getItem("cartItems");
-    if (savedItems) {
-      dispatch(getCartItems(JSON.parse(savedItems)));
-    }
+    const wishlistItems = localStorage.getItem("wishlistItems");
+    dispatch(getCartItems(JSON.parse(savedItems)));
+    dispatch(getWithListItems(JSON.parse(wishlistItems)));
   }, []);
   const totalQuantity = items.reduce(
     (accumulator, cartItem) => accumulator + cartItem.quantity,
