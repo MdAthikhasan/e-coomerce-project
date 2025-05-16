@@ -8,12 +8,12 @@ import { useSelector } from "react-redux";
 
 export default function CartPage() {
   const { items } = useSelector((state) => state?.cartItems);
-  const totalPrice = items.reduce(
-    (accumulator, cartItem) => accumulator + cartItem.price * cartItem.quantity,
+  const totalPrice = items?.reduce(
+    (accumulator, cartItem) => accumulator + cartItem?.price * cartItem?.quantity,
     0
   );
-  const totalItems = items.reduce(
-    (accumulator, cartItem) => accumulator + cartItem.quantity,
+  const totalItems = items?.reduce(
+    (accumulator, cartItem) => accumulator + cartItem?.quantity,
     0
   );
   const router = useRouter();

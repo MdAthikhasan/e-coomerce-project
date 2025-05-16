@@ -42,7 +42,7 @@ const wishlistSlice = createSlice({
       }
     },
     removeFromWishlist: (state, { payload }) => {
-      const filterd = state.items.filter((item) => item?._id !== payload);
+      const filterd = state.items?.filter((item) => item?._id !== payload);
       state.items = filterd;
       // setWishItemInlocal(state?.items);
     },

@@ -32,8 +32,8 @@ const Header = () => {
     dispatch(getCartItems(JSON.parse(savedItems)));
     dispatch(getWithListItems(JSON.parse(wishlistItems)));
   }, []);
-  const totalQuantity = items.reduce(
-    (accumulator, cartItem) => accumulator + cartItem.quantity,
+  const totalQuantity = items?.reduce(
+    (accumulator, cartItem) => accumulator + cartItem?.quantity,
     0
   );
 

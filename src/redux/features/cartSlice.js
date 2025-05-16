@@ -22,27 +22,27 @@ const cartSlice = createSlice({
       state.items = payload;
     },
     addToCart: (state, { payload }) => {
-      const existingItem = state.items?.find((item) => item._id === payload);
+      const existingItem = state.items?.find((item) => item?._id === payload);
 
       if (existingItem) {
-        state.items.find((item) => item._id === existingItem._id).quantity++;
+        state.items?.find((item) => item._id === existingItem?._id).quantity++;
       } else {
         const product = state?.products?.find(
-          (product) => product._id === payload
+          (product) => product?._id === payload
         );
-        state.items.push({ ...product, quantity: 1 });
+        state?.items.push({ ...product, quantity: 1 });
       }
     },
     removeFromCart: (state, { payload }) => {
-      const filteredProducts = state.items?.filter(
-        (cartItem) => cartItem._id !== payload
+      const filteredProducts = state?.items?.filter(
+        (cartItem) => cartItem?._id !== payload
       );
       state.items = filteredProducts;
       // setToLocalStorage(state.items);
     },
     updateQuantity: (state, { payload }) => {
       const { id, action } = payload;
-      const item = state.items.find((item) => item._id === id);
+      const item = state.items?.find((item) => item._id === id);
       if (action == "+") {
         item.quantity += 1;
       }
