@@ -14,7 +14,7 @@ export default function ShopPageComponent({ promise }) {
     firstValue: 0,
     lastValue: 10,
   });
-  console.log(categoryName, "categoryName");
+
   const sorted = products
     ?.filter(
       (product) =>
