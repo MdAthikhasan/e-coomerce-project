@@ -17,8 +17,8 @@ export default function SignUp() {
     }
     const users = JSON.parse(localStorage.getItem("user"));
 
-    const user = users && users?.find((u) => u?.email === email);
-    if (user && user.email === email) {
+    const user = users?.find((u) => u?.email === email);
+    if (user && user?.email === email) {
       alert("User already exists");
     } else {
       localStorage.setItem("user", JSON.stringify([{ email, password }]));

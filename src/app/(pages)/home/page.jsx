@@ -1,5 +1,5 @@
 import Features from "@/app/components/features/Features";
-import HomeProducts from "@/app/components/products/Products";
+import HomeProducts from "@/app/components/HomeProducts/HomeProducts";
 
 import Banner from "@/app/components/shred/header/banner/Banner";
 import getProducts from "@/app/getData/products";

@@ -1,7 +1,5 @@
 import getProducts from "@/app/getData/products";
-import getWishlistItems from "@/app/helpers/getWishlistItem";
-
-import setWishItemInlocal from "@/app/helpers/setWishItemInlocal";
+ 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -26,20 +24,17 @@ const wishlistSlice = createSlice({
     },
     addToWishlist: (state, { payload }) => {
       const existingItem = state.items?.find((item) => item?._id === payload);
-
+    
       if (existingItem) {
-        const filterd = state?.items?.filter(
-          (item) => item?._id !== existingItem?._id
-        );
-        state.items = filterd;
-        // setWishItemInlocal(state?.items);
+        state.items = state.items.filter((item) => item._id !== payload);
       } else {
-        const item = state?.products?.find(
-          (product) => product?._id === payload
-        );
-        state.items.push(item);
-        // setWishItemInlocal(state?.items);
+        const item = state.products?.find((product) => product._id === payload);
+        if (item) {
+          state.items.push(item);
+        }
       }
+    
+      
     },
     removeFromWishlist: (state, { payload }) => {
       const filterd = state.items?.filter((item) => item?._id !== payload);

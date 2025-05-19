@@ -14,7 +14,7 @@ export default function HomeProducts({ promise }) {
   useEffect(() => {
     dispatch(fetchProducts()); // thunk dispatch
     dispatch(fetchProductData()); // thunk dispatch
-  }, [dispatch]);
+  }, []);
   const filteredProducts = products
     ?.filter((product) => product.category === categoryName)
     .slice(0, 10);

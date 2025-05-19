@@ -3,15 +3,18 @@
 import { addToCart } from "@/redux/features/cartSlice";
 import { addToWishlist } from "@/redux/features/wishSlice";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state?.wishlistItems);
-  const state = useSelector((state) => state?.cartItems);
-  const wishlistid =
-    items.find((item) => item?._id === product?._id)?._id || null;
-
+  const { items: cartItems } = useSelector((state) => state.cartItems);
+  const { items: wishlistItems } = useSelector((state) => state.wishlistItems);
+  const wishlistid = useMemo(() => {
+    return (
+      wishlistItems?.find((item) => item?._id === product._id)?._id || null
+    );
+  }, [wishlistItems, product._id]);
+  // handler functions
   const cartHandler = (id) => {
     dispatch(addToCart(id));
   };
@@ -19,17 +22,9 @@ const ProductCard = ({ product }) => {
     dispatch(addToWishlist(id));
   };
   useEffect(() => {
-    const saveToLocalStorage = () => {
-      localStorage.setItem("cartItems", JSON.stringify(state?.items));
-    };
-    saveToLocalStorage();
-  }, [state?.items]);
-  useEffect(() => {
-    const saveToLocalStorage = () => {
-      localStorage.setItem("wishlistItems", JSON.stringify(items));
-    };
-    saveToLocalStorage();
-  }, [items]);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
+  }, [cartItems, wishlistItems]);
 
   return (
     <div

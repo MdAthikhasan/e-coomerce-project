@@ -1,9 +1,15 @@
 "use client";
+// components import
 import Pagination from "@/app/components/pagination/Pagination";
-import ProductCard from "@/app/components/productcard/ProductCard";
 import ShopFilterBar from "@/app/components/shopfilterbar/ShopFilterbar";
-
+// react import
 import { use, useState } from "react";
+import dynamic from "next/dynamic";
+
+const ProductCard = dynamic(
+  () => import("@/app/components/productcard/ProductCard"),
+  { ssr: false }
+);
 
 export default function ShopPageComponent({ promise }) {
   const products = use(promise);
@@ -55,7 +61,7 @@ export default function ShopPageComponent({ promise }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
             {sliced.length > 0 ? (
               sliced.map((product) => (
-                <ProductCard key={product._id} product={product} />
+                <ProductCard key={product?._id} product={product} />
               ))
             ) : (
               <p className="text-center text-red-500">Product Not Found</p>

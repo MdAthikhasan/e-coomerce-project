@@ -27,15 +27,35 @@ const Header = () => {
   const { data, status } = useSession();
 
   useEffect(() => {
-    const savedItems = localStorage.getItem("cartItems");
-    const wishlistItems = localStorage.getItem("wishlistItems");
-    dispatch(getCartItems(JSON.parse(savedItems)));
-    dispatch(getWithListItems(JSON.parse(wishlistItems)));
-  }, []);
-  const totalQuantity = items?.reduce(
-    (accumulator, cartItem) => accumulator + cartItem?.quantity,
-    0
-  );
+    if (typeof window !== "undefined") {
+      try {
+        const savedCartItems = localStorage.getItem("cartItems");
+        const savedWishlistItems = localStorage.getItem("wishlistItems");
+
+        if (savedCartItems) {
+          const parsedCart = JSON.parse(savedCartItems);
+          if (Array.isArray(parsedCart)) {
+            dispatch(getCartItems(parsedCart));
+          }
+        }
+
+        if (savedWishlistItems) {
+          const parsedWishlist = JSON.parse(savedWishlistItems);
+          if (Array.isArray(parsedWishlist)) {
+            dispatch(getWithListItems(parsedWishlist));
+          }
+        }
+      } catch (error) {
+        console.error("Error loading from localStorage:", error);
+      }
+    }
+  }, [dispatch]);
+
+  const totalQuantity =
+    items?.reduce(
+      (accumulator, cartItem) => accumulator + (cartItem?.quantity || 0),
+      0
+    ) ?? 0;
 
   // if (status === "loading") return <div>Loading...</div>;
   return (
@@ -101,7 +121,7 @@ const Header = () => {
             <Link href={"/cart"} className="text-gray-800 hover:text-green-500">
               <FaShoppingCart size={18} />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {totalQuantity || 0}
+                {totalQuantity}
               </span>
             </Link>
           </div>
