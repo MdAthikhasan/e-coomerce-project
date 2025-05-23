@@ -22,7 +22,7 @@ export default function SignUp() {
       alert("User already exists");
     } else {
       localStorage.setItem("user", JSON.stringify([{ email, password }]));
-      alert("User created successfully");
+
       router.push("/signin");
     }
   };

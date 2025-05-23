@@ -1,5 +1,5 @@
 function getUserByEmail(email) {
-  const users = [{ email: "tanj@gmail.com", password: "12345" }];
+  const users = JSON.parse(localStorage.getItem("user")) || [];
   const userData = users?.find((user) => user?.email === email);
   return userData;
 }

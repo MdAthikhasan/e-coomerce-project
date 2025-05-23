@@ -19,7 +19,7 @@ export default function SignIn() {
     });
   };
   const [state, credentialsAction, pending] = useActionState(createUser, {
-    message: "something went wrong",
+    message: "",
   });
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
